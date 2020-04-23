@@ -21,6 +21,5 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener {
             firstExample.someMethod(this)
         }
-
     }
 }

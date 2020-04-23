@@ -3,6 +3,7 @@ package com.example.annotation_processor_example
 import com.example.annotation_example.Inject
 import com.squareup.kotlinpoet.*
 import java.io.File
+import java.io.IOException
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.ElementKind
@@ -90,7 +91,11 @@ class InjectAnnotationProcessor : AbstractProcessor() {
             .build()
         val generatedFile = FileSpec.builder(packageName, FILE_NAME).addType(generatedClass).build()
         val kaptKotlinGeneratedDir = options[KOTLIN_KAPT_DIR]
-        generatedFile.writeTo(File(kaptKotlinGeneratedDir, "$FILE_NAME.kt"))
+        try {
+            generatedFile.writeTo(File(kaptKotlinGeneratedDir, "$FILE_NAME.kt"))
+        } catch (e: IOException) {
+            return false
+        }
         return true
     }
 
