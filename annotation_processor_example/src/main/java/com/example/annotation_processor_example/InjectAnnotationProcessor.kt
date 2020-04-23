@@ -65,7 +65,7 @@ class InjectAnnotationProcessor : AbstractProcessor() {
             } else {
                 messager.printMessage(
                     Diagnostic.Kind.ERROR,
-                    "${annotatedElement.kind} annotate not supported"
+                    "${annotatedElement.kind} annotation not supported"
                 )
             }
         }
