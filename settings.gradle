@@ -1,0 +1,4 @@
+rootProject.name='CodeGenerationExample'
+include ':app'
+include ':annotation_example'
+include ':annotation_processor_example'
