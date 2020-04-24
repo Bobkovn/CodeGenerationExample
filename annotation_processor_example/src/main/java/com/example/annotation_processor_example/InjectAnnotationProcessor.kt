@@ -23,6 +23,8 @@ class InjectAnnotationProcessor : AbstractProcessor() {
     private lateinit var options: Map<String?, String?>
     private lateinit var messager: Messager
     private lateinit var elementUtils: Elements
+    private lateinit var packageName: String
+    private val functions = arrayListOf<FunSpec>()
 
     override fun init(processingEnvironment: ProcessingEnvironment) {
         processingEnvironment.also {
@@ -40,8 +42,6 @@ class InjectAnnotationProcessor : AbstractProcessor() {
         if (annotations?.isEmpty() != false) {
             return false
         }
-        var packageName = ""
-        val functions = arrayListOf<FunSpec>()
         env?.getElementsAnnotatedWith(annotation)?.forEach { annotatedElement ->
             if (annotatedElement.kind == ElementKind.FIELD) {
                 packageName = elementUtils.getPackageOf(annotatedElement).toString()
@@ -86,6 +86,10 @@ class InjectAnnotationProcessor : AbstractProcessor() {
             }
             functions.add(injectMethod.build())
         }
+        return generateInjectorClass()
+    }
+
+    private fun generateInjectorClass(): Boolean {
         val generatedClass = TypeSpec.objectBuilder(FILE_NAME)
             .addFunctions(functions)
             .build()
